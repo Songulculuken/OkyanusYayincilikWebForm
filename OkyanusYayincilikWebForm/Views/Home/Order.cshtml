@@ -1,0 +1,119 @@
+﻿@model OkyanusYayincilikWebForm.Models.Class1
+@{
+    Layout = null;
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $(function () {
+        $('#orders_Il').change(function () {
+            var id = $('#orders_Il').val();
+
+            $.ajax({
+                url: '/Home/townGet',
+                data: { cty: id },
+                type: "POST",
+                dataType: "Json",
+                success: function (data) {
+                    console.log(data);
+                    $('#orders_Ilce').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $('#orders_Ilce').append("<option value='" + data[i].Value + "'>" + data[i].Text + "</Option>");
+                    }
+                }
+
+            });
+
+        });
+        $('#orders_Ilce').change(function () {
+            var id = $('#orders_Ilce').val();
+            $.ajax({
+                url: '/Home/institutionGet',
+                data: { ins: id },
+                type: "POST",
+                dataType: "Json",
+                success: function (data) {
+                    console.log(data);
+
+                    $('#orders_KurumId').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $('#orders_KurumId').append("<option value='" + data[i].Value + "'>" + data[i].Text + "</Option>");
+                    }
+                }
+            });
+        });
+        $('#orders_KurumId').change(function () {
+            var string = $('#orders_KurumId').val();
+            $.ajax({
+                url: '/Home/productGet',
+                data: { pro: string },
+                type: "POST",
+                dataType: "Json",
+                success: function (data) {
+                    console.log(data);
+
+                    $('#orders_UrunId').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $('#orders_UrunId').append("<option value='" + data[i].Value + "'>" + data[i].Text + "</Option>");
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+
+<!doctype html>
+<html>
+<head>
+
+    <style>
+        body {
+            font-family: "Roboto", Helvetica, Arial, sans-serif;
+            font-weight: 100;
+            font-size: 13px;
+            line-height: 30px;
+            color: #000000;
+            background: #79A7A8;
+        }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("Order", "Home", FormMethod.Post))
+    {
+        <h1>Sipariş Formu</h1>
+        <div style="margin-left:60px">
+            <table>
+                <tr>
+                    <td> @Html.Label("Kullanıcı Adı Soyadı:")</td>
+
+                    <td> @Html.TextBoxFor(or => or.orders.customerNameSurname)</td>
+                </tr>
+                <tr>
+                <tr>
+                    <td>@Html.Label("Kullanıcı Telefon Numarası:")</td>
+                    <td>@Html.TextBoxFor(or => or.orders.customerPhone)</td>
+                </tr>
+            </table>
+            @Html.Label("Şehir:")
+            @Html.DropDownListFor(or => or.orders.Il, Model.City, "Şehir Seçiniz.", new { @class = "form-control" })
+            <br />
+            @Html.Label("İlçe:")
+            @Html.DropDownListFor(or => or.orders.Ilce, Model.Town, "İlçe Seçiniz.", new { @class = "form-control" })
+            <br />
+            @Html.Label("Kurum:")
+            @Html.DropDownListFor(or => or.orders.KurumId, Model.Institution, "Kurum Seçiniz.", new { @class = "form-control" })
+            <br />
+            @Html.Label("Ürün:")
+            @Html.DropDownListFor(or => or.orders.UrunId, Model.Product, "Ürün Seçiniz.", new { @class = "form-control" })
+            <br />
+            <button type="submit" class="btn btn-primary" value="Insert">Sipariş Veriniz</button>
+            <h3>@ViewBag.mesaj</h3>
+        </div>
+
+    }
+</body>
+</html>
+
+

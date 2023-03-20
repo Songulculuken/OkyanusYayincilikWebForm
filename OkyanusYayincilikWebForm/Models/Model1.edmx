@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="soncuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'soncu.dbo.City' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="IlId" />
+          </Key>
+          <Property Name="IlId" Type="int" Nullable="false" />
+          <Property Name="IlAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'soncu.dbo.Kurumlar' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Kurumlar">
+          <Key>
+            <PropertyRef Name="KurumId" />
+            <PropertyRef Name="IlId" />
+            <PropertyRef Name="IlceId" />
+          </Key>
+          <Property Name="KurumId" Type="int" Nullable="false" />
+          <Property Name="IlId" Type="int" Nullable="false" />
+          <Property Name="IlceId" Type="int" Nullable="false" />
+          <Property Name="Kategori" Type="varchar" MaxLength="8" />
+          <Property Name="KurumAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'soncu.dbo.Orders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderDate" Type="datetime" />
+          <Property Name="customerNameSurname" Type="nvarchar" MaxLength="200" />
+          <Property Name="customerPhone" Type="nvarchar" MaxLength="11" />
+          <Property Name="Il" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ilce" Type="nvarchar" MaxLength="100" />
+          <Property Name="KurumId" Type="int" />
+          <Property Name="UrunId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'soncu.dbo.Products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="251" />
+          <Property Name="Kategori" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'soncu.dbo.Town' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Town">
+          <Key>
+            <PropertyRef Name="IlceId" />
+            <PropertyRef Name="IlId" />
+          </Key>
+          <Property Name="IlceId" Type="int" Nullable="false" />
+          <Property Name="IlId" Type="int" Nullable="false" />
+          <Property Name="IlceAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <Function Name="sp_OrdrInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="orderDate" Type="datetime" Mode="In" />
+          <Parameter Name="customerNameSurname" Type="nvarchar" Mode="In" />
+          <Parameter Name="customerPhone" Type="nvarchar" Mode="In" />
+          <Parameter Name="Il" Type="nvarchar" Mode="In" />
+          <Parameter Name="Ilce" Type="nvarchar" Mode="In" />
+          <Parameter Name="KurumId" Type="int" Mode="In" />
+          <Parameter Name="UrunId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="soncuModelStoreContainer">
+          <EntitySet Name="City" EntityType="Self.City" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [City].[IlId] AS [IlId], 
+    [City].[IlAdi] AS [IlAdi]
+    FROM [dbo].[City] AS [City]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Kurumlar" EntityType="Self.Kurumlar" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Kurumlar].[KurumId] AS [KurumId], 
+    [Kurumlar].[IlId] AS [IlId], 
+    [Kurumlar].[IlceId] AS [IlceId], 
+    [Kurumlar].[Kategori] AS [Kategori], 
+    [Kurumlar].[KurumAdi] AS [KurumAdi]
+    FROM [dbo].[Kurumlar] AS [Kurumlar]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Orders" EntityType="Self.Orders" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Orders].[orderID] AS [orderID], 
+    [Orders].[orderDate] AS [orderDate], 
+    [Orders].[customerNameSurname] AS [customerNameSurname], 
+    [Orders].[customerPhone] AS [customerPhone], 
+    [Orders].[Il] AS [Il], 
+    [Orders].[Ilce] AS [Ilce], 
+    [Orders].[KurumId] AS [KurumId], 
+    [Orders].[UrunId] AS [UrunId]
+    FROM [dbo].[Orders] AS [Orders]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Products" EntityType="Self.Products" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Products].[UrunId] AS [UrunId], 
+    [Products].[Name] AS [Name], 
+    [Products].[Kategori] AS [Kategori]
+    FROM [dbo].[Products] AS [Products]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Town" EntityType="Self.Town" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Town].[IlceId] AS [IlceId], 
+    [Town].[IlId] AS [IlId], 
+    [Town].[IlceAdi] AS [IlceAdi]
+    FROM [dbo].[Town] AS [Town]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="soncuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="IlId" />
+          </Key>
+          <Property Name="IlId" Type="Int32" Nullable="false" />
+          <Property Name="IlAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Kurumlar">
+          <Key>
+            <PropertyRef Name="KurumId" />
+            <PropertyRef Name="IlId" />
+            <PropertyRef Name="IlceId" />
+          </Key>
+          <Property Name="KurumId" Type="Int32" Nullable="false" />
+          <Property Name="IlId" Type="Int32" Nullable="false" />
+          <Property Name="IlceId" Type="Int32" Nullable="false" />
+          <Property Name="Kategori" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="KurumAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="Kategori" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Town">
+          <Key>
+            <PropertyRef Name="IlceId" />
+            <PropertyRef Name="IlId" />
+          </Key>
+          <Property Name="IlceId" Type="Int32" Nullable="false" />
+          <Property Name="IlId" Type="Int32" Nullable="false" />
+          <Property Name="IlceAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="soncuEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="City" EntityType="Self.City" />
+          <EntitySet Name="Kurumlar" EntityType="Self.Kurumlar" />
+          <EntitySet Name="Products" EntityType="Self.Products" />
+          <EntitySet Name="Town" EntityType="Self.Town" />
+          <EntitySet Name="Orders" EntityType="soncuModel.Orders" />
+          <FunctionImport Name="sp_OrdrInsert">
+            <Parameter Name="orderDate" Mode="In" Type="DateTime" />
+            <Parameter Name="customerNameSurname" Mode="In" Type="String" />
+            <Parameter Name="customerPhone" Mode="In" Type="String" />
+            <Parameter Name="Il" Mode="In" Type="String" />
+            <Parameter Name="Ilce" Mode="In" Type="String" />
+            <Parameter Name="KurumId" Mode="In" Type="Int32" />
+            <Parameter Name="UrunId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderDate" Type="DateTime" Precision="3" />
+          <Property Name="customerNameSurname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="customerPhone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="Il" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ilce" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="KurumId" Type="Int32" />
+          <Property Name="UrunId" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="soncuModelStoreContainer" CdmEntityContainer="soncuEntities">
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="soncuModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="IlId" ColumnName="IlId" />
+                <ScalarProperty Name="IlAdi" ColumnName="IlAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kurumlar">
+            <EntityTypeMapping TypeName="soncuModel.Kurumlar">
+              <MappingFragment StoreEntitySet="Kurumlar">
+                <ScalarProperty Name="KurumId" ColumnName="KurumId" />
+                <ScalarProperty Name="IlId" ColumnName="IlId" />
+                <ScalarProperty Name="IlceId" ColumnName="IlceId" />
+                <ScalarProperty Name="Kategori" ColumnName="Kategori" />
+                <ScalarProperty Name="KurumAdi" ColumnName="KurumAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="soncuModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Kategori" ColumnName="Kategori" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Town">
+            <EntityTypeMapping TypeName="soncuModel.Town">
+              <MappingFragment StoreEntitySet="Town">
+                <ScalarProperty Name="IlceId" ColumnName="IlceId" />
+                <ScalarProperty Name="IlId" ColumnName="IlId" />
+                <ScalarProperty Name="IlceAdi" ColumnName="IlceAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="soncuModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="KurumId" ColumnName="KurumId" />
+                <ScalarProperty Name="Ilce" ColumnName="Ilce" />
+                <ScalarProperty Name="Il" ColumnName="Il" />
+                <ScalarProperty Name="customerPhone" ColumnName="customerPhone" />
+                <ScalarProperty Name="customerNameSurname" ColumnName="customerNameSurname" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_OrdrInsert" FunctionName="soncuModel.Store.sp_OrdrInsert" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
